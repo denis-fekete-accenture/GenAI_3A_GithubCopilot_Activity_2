@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react'
-import { fetchCollection } from '../api.js'
+import { fetchCollectionFromUrl } from '../api.js'
+
+const leaderboardUrl = import.meta.env.VITE_CODESPACE_NAME
+  ? `https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/leaderboard/`
+  : '/api/leaderboard/'
 
 function Leaderboard() {
   const [entries, setEntries] = useState([])
@@ -8,7 +12,7 @@ function Leaderboard() {
   useEffect(() => {
     const controller = new AbortController()
 
-    fetchCollection('leaderboard', controller.signal)
+    fetchCollectionFromUrl(leaderboardUrl, controller.signal)
       .then((records) => {
         setEntries(records)
         setStatus(records.length ? '' : 'No leaderboard entries found.')

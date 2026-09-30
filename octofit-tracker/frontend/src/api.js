@@ -24,7 +24,11 @@ export function normalizeCollection(payload) {
 }
 
 export async function fetchCollection(resourceName, signal) {
-  const response = await fetch(buildApiUrl(resourceName), { signal })
+  return fetchCollectionFromUrl(buildApiUrl(resourceName), signal)
+}
+
+export async function fetchCollectionFromUrl(url, signal) {
+  const response = await fetch(url, { signal })
 
   if (!response.ok) {
     throw new Error(`Request failed with status ${response.status}`)

@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react'
-import { fetchCollection } from '../api.js'
+import { fetchCollectionFromUrl } from '../api.js'
+
+const usersUrl = import.meta.env.VITE_CODESPACE_NAME
+  ? `https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/users/`
+  : '/api/users/'
 
 function Users() {
   const [users, setUsers] = useState([])
@@ -8,7 +12,7 @@ function Users() {
   useEffect(() => {
     const controller = new AbortController()
 
-    fetchCollection('users', controller.signal)
+    fetchCollectionFromUrl(usersUrl, controller.signal)
       .then((records) => {
         setUsers(records)
         setStatus(records.length ? '' : 'No users found.')

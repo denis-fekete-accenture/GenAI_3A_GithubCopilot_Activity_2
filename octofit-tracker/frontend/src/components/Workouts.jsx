@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react'
-import { fetchCollection } from '../api.js'
+import { fetchCollectionFromUrl } from '../api.js'
+
+const workoutsUrl = import.meta.env.VITE_CODESPACE_NAME
+  ? `https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/workouts/`
+  : '/api/workouts/'
 
 function Workouts() {
   const [workouts, setWorkouts] = useState([])
@@ -8,7 +12,7 @@ function Workouts() {
   useEffect(() => {
     const controller = new AbortController()
 
-    fetchCollection('workouts', controller.signal)
+    fetchCollectionFromUrl(workoutsUrl, controller.signal)
       .then((records) => {
         setWorkouts(records)
         setStatus(records.length ? '' : 'No workouts found.')

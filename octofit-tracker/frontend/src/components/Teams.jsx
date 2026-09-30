@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react'
-import { fetchCollection } from '../api.js'
+import { fetchCollectionFromUrl } from '../api.js'
+
+const teamsUrl = import.meta.env.VITE_CODESPACE_NAME
+  ? `https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/teams/`
+  : '/api/teams/'
 
 function Teams() {
   const [teams, setTeams] = useState([])
@@ -8,7 +12,7 @@ function Teams() {
   useEffect(() => {
     const controller = new AbortController()
 
-    fetchCollection('teams', controller.signal)
+    fetchCollectionFromUrl(teamsUrl, controller.signal)
       .then((records) => {
         setTeams(records)
         setStatus(records.length ? '' : 'No teams found.')
