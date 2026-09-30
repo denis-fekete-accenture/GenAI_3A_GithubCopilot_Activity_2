@@ -29,6 +29,15 @@ h1, .brand {
   font-weight: 700;
 }
 
+.site-header nav {
+  gap: 1rem;
+}
+
+.site-header nav > div {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
 .nav-item {
   color: #37534e;
   text-decoration: none;
@@ -58,4 +67,38 @@ h1 {
 .intro, .status-line {
   color: #4a625d;
   font-size: 1.1rem;
+}
+
+.resource-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.resource-card {
+  background: #fff;
+  border: 1px solid #dce7e1;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.resource-card h2 {
+  color: #143c35;
+  font-size: 1.1rem;
+  margin: 0 0 0.5rem;
+}
+
+.resource-card p {
+  color: #4a625d;
+  margin: 0 0 0.75rem;
+}
+
+.resource-card span {
+  color: #167a64;
+  font-weight: 700;
+}
+
+.leaderboard-table {
+  --bs-table-bg: #fff;
+  border: 1px solid #dce7e1;
 }

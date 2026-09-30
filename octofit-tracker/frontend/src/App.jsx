@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react'
 import { NavLink, Route, Routes } from 'react-router-dom'
 import logo from '../../../docs/octofitapp-small.png'
+import { apiMode, buildApiUrl } from './api.js'
+import Activities from './components/Activities.jsx'
+import Leaderboard from './components/Leaderboard.jsx'
+import Teams from './components/Teams.jsx'
+import Users from './components/Users.jsx'
+import Workouts from './components/Workouts.jsx'
 
 function Status() {
   const [status, setStatus] = useState('Checking API...')
@@ -8,12 +14,12 @@ function Status() {
   useEffect(() => {
     const controller = new AbortController()
 
-    fetch('/api/health', { signal: controller.signal })
+    fetch(buildApiUrl('health'), { signal: controller.signal })
       .then((response) => {
         if (!response.ok) throw new Error('API unavailable')
         return response.json()
       })
-      .then((data) => setStatus(`API online - Database ${data.database}`))
+      .then((data) => setStatus(`API online - Database ${data.database} - ${apiMode}`))
       .catch((error) => {
         if (error.name !== 'AbortError') setStatus('API unavailable')
       })
@@ -41,6 +47,11 @@ function App() {
           </NavLink>
           <div className="d-flex gap-4">
             <NavLink to="/" end className="nav-item">Home</NavLink>
+            <NavLink to="/users" className="nav-item">Users</NavLink>
+            <NavLink to="/teams" className="nav-item">Teams</NavLink>
+            <NavLink to="/activities" className="nav-item">Activities</NavLink>
+            <NavLink to="/leaderboard" className="nav-item">Leaderboard</NavLink>
+            <NavLink to="/workouts" className="nav-item">Workouts</NavLink>
             <NavLink to="/status" className="nav-item">Status</NavLink>
           </div>
         </nav>
@@ -52,9 +63,17 @@ function App() {
               <p className="eyebrow">Training workspace</p>
               <h1>OctoFit Tracker</h1>
               <p className="intro">Your place for activity, teams, and progress.</p>
-              <NavLink to="/status" className="btn btn-dark mt-4">View service status</NavLink>
+              <div className="d-flex flex-wrap gap-3 mt-4">
+                <NavLink to="/users" className="btn btn-dark">View users</NavLink>
+                <NavLink to="/activities" className="btn btn-outline-dark">View activities</NavLink>
+              </div>
             </section>
           } />
+          <Route path="/users" element={<Users />} />
+          <Route path="/teams" element={<Teams />} />
+          <Route path="/activities" element={<Activities />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/workouts" element={<Workouts />} />
           <Route path="/status" element={<Status />} />
         </Routes>
       </main>
